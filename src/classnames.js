@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, curry, equals, has, lensProp, over, split, type, when } from 'ramda'
+import { compose, curry, has, is, lensProp, over, split, when } from 'ramda'
 import { isClassComponent, setDisplayName } from 'recompose'
 import cn from 'classnames/bind'
 
@@ -8,7 +8,7 @@ const wrap = curry((styles, element) => {
 
 	const children = React.Children.map(element.props.children, wrap(styles))
 	const props = when(has('className'), over(lensProp('className'),
-		compose(styles, when(compose(equals('String'), type), split(' ')))
+		compose(styles, when(is(String), split(' ')))
 	))
 
 	return React.cloneElement(element, props(element.props), children)
