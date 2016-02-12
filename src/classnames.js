@@ -22,9 +22,12 @@ const classnames = (styles) => (component) => {
 			}
 		}
 	} else {
-		return setDisplayName(component.name, (props) =>
+		const wrapped = setDisplayName(component.name, (props) =>
 			wrap(cn.bind(styles), component(props))
 		)
+		wrapped.defaultProps = component.defaultProps
+		wrapped.propTypes = component.propTypes
+		return wrapped
 	}
 }
 
