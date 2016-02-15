@@ -1,14 +1,14 @@
 import React from 'react'
 import { always, compose, curry, has, is, lensProp, merge, over, split, when } from 'ramda'
 import cn from 'classnames/bind'
-import { isClassComponent } from 'react-util'
+import { isClassComponent, isComponent } from 'react-util'
 
 const wrap = curry((styles, element) => {
 	if (!React.isValidElement(element)) { return element }
 
 	const children = React.Children.map(element.props.children, wrap(styles))
 	const transform = compose(
-		when(always(is(Function, element.type)), merge({ styles })),
+		when(always(isComponent), merge({ styles })),
 		when(has('className'), over(lensProp('className'),
 			compose(styles, when(is(String), split(' ')))
 		))
